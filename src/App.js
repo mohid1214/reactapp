@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
+import Signup from './Screens/Signup';
+import Login from './Screens/Login';
+import Dashboard from './Screens/Dashboard';
 
 function App() {
+
+  const [isdashboardverified,setloginverified] = useState(localStorage.getItem('token') ? true : false );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <Routes>
+          <Route path="/signup" element={<Signup />}></Route>
+          <Route path='/login' element={<Login setloginverified={setloginverified} />}></Route> 
+          <Route path='/dashboard' 
+          element={ isdashboardverified ? <Dashboard /> : <Navigate to = '/login' replace /> }></Route>
+        </Routes>
+
+      </div>
+    </Router>
   );
 }
 
